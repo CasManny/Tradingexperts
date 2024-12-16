@@ -3,6 +3,7 @@ import { Banknote, CheckCircle, CirclePower } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { TradingViewDetails } from "./trading-view-details";
+import DashboardAccountDetails from "./dashboard-account-details";
 
 const DashboardNavbar = () => {
   return (
@@ -31,8 +32,9 @@ const DashboardNavbar = () => {
           </Button>
         </div>
       </div>
-      <div className="">
+      <div className="flex justify-between items-center">
         <TradingViewDetails />
+        <DashboardAccountDetails />
       </div>
     </div>
   );

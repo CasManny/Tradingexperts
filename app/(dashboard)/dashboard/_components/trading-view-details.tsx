@@ -45,12 +45,12 @@ const routes = [
 export const TradingViewDetails = () => {
   return (
     <TooltipProvider>
-      <div className="flex items-center gap-5">
+      <div className="flex items-center gap-7">
         {routes.map((route, index) => (
           <Tooltip key={index}>
             <TooltipTrigger>
               <Link href={route.href}>
-                <route.Icon className="size-4" />
+                <route.Icon className="size-5" />
               </Link>
             </TooltipTrigger>
             <TooltipContent side="bottom" className="text-xs p-1">{route.label}</TooltipContent>
