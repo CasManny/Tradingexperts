@@ -1,24 +1,20 @@
 import {
-  Banknote,
-  CalendarSync,
-  ChartCandlestick,
-  HeadphoneOff,
-  Headphones,
-  History,
-  LucideIcon,
-  Menu,
-  UsersRound,
-} from "lucide-react";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
+    NavigationMenu,
+    NavigationMenuContent,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+    NavigationMenuTrigger
 } from "@/components/ui/navigation-menu";
+import {
+    Banknote,
+    CalendarSync,
+    ChartCandlestick,
+    Headphones,
+    History,
+    Menu,
+    UsersRound
+} from "lucide-react";
 
 import Link from "next/link";
 
