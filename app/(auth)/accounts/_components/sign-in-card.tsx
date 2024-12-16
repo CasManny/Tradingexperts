@@ -1,22 +1,21 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { signinSchema } from "@/schemas";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { signinSchema } from "@/schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const SignInCard = () => {
   const form = useForm<z.infer<typeof signinSchema>>({
@@ -74,7 +73,7 @@ const SignInCard = () => {
             </Button>
             <div className="mt-2">
               <p className="text-center">
-                Don't have an account?{" "}
+                Don&apos;t have an account?{" "}
                 <Link href={"/accounts/sign-up"} className="underline text-blue-700 tracking-wide">create an account</Link>
               </p>
             </div>
