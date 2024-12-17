@@ -50,7 +50,7 @@ const testimony = [
 ];
 const AboutMe = () => {
   return (
-    <section className="py-10 px-10 sm:py-24">
+    <section className="py-10 px-10 sm:py-24" id="about">
       <h1 className="text-center text-4xl font-bold mb-5">About me</h1>
       <div className="flex gap-5 flex-col sm:flex-row w-full">
         <div className="flex-shrink-0">

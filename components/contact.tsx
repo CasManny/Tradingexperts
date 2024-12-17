@@ -8,7 +8,7 @@ import { Textarea } from "./ui/textarea";
 
 export const ContactMe = () => {
   return (
-    <section className="py-10 px-10 sm:py-24">
+    <section className="py-10 px-10 sm:py-24 w-full max-w-7xl mx-auto" id="contact">
       <div className="">
         <h1 className="text-center text-4xl font-bold">Contact Me</h1>
         <p className="text-left max-w-lg mx-auto">

@@ -2,10 +2,10 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const routes = [
+export const navroutes = [
   {
     label: "Home",
-    href: "/",
+    href: "#",
   },
   {
     label: "About",
@@ -41,9 +41,9 @@ const HomepageNavbar = () => {
     };
   }, []);
   return (
-    <nav className={`w-full p-5 flex justify-center items-center transition-colors duration-300 ease-in ${isScrolled && "bg-neutral-900/80"}`}>
+    <nav className={`w-full p-5  hidden lg:flex justify-center items-center transition-colors duration-300 ease-in ${isScrolled && "bg-neutral-900/80"}`}>
       <div className="flex gap-4 uppercase text-white text-sm">
-        {routes.map((route, index) => (
+        {navroutes.map((route, index) => (
           <Link
             href={route.href}
             key={index}

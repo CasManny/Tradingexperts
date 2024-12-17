@@ -1,4 +1,5 @@
 import HomepageNavbar from "./homepage-navbar";
+import MobileNavbar from "./mobile-navbar";
 import Globe from "./ui/globe";
 
 const Hero = () => {
@@ -11,6 +12,7 @@ const Hero = () => {
       <div className="inset-0 bg-neutral-900/80 absolute" />
       <div className="fixed top-0 z-50 left-0 right-0">
         <HomepageNavbar />
+        <MobileNavbar />
       </div>
       <div className="relative flex items-center justify-center h-full w-full">
         <div className="text-white">
@@ -23,7 +25,7 @@ const Hero = () => {
           </p>
         </div>
       </div>
-      <Globe className="top-28 -z-10" />
+      <Globe className="bottom-0 lg:top-28 -z-10" />
     </section>
   );
 };
