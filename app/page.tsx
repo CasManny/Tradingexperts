@@ -1,18 +1,18 @@
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-
+import AboutMe from "@/components/about-me";
+import { ContactMe } from "@/components/contact";
+import { Footer } from "@/components/footer";
+import Hero from "@/components/hero";
+import Services from "@/components/services";
+import Testimonials from "@/components/testimonials";
 export default function Home() {
   return (
-    <main className="flex items-center justify-center flex-col h-full">
-      <h1>The landing page Goes Here</h1>
-      <div className="flex gap-4">
-        <Button asChild className="bg-brand-3 text-neutral-900 hover:bg-brand-1">
-          <Link href={'/accounts/sign-in'}>Create account</Link>
-        </Button>
-        <Button asChild>
-          <Link href={'/dashboard'}>Go to dashboard</Link>
-        </Button>
-      </div>
-   </main>
+    <main className="">
+      <Hero />
+      <AboutMe />
+      <Services />
+      <Testimonials />
+      <ContactMe />
+      <Footer />
+    </main>
   );
 }

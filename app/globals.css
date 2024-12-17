@@ -79,4 +79,7 @@ body {
   .flex-center {
     @apply flex items-center gap-1 hover:text-brand-1 transition duration-300 
   }
+  .center {
+    @apply flex items-center justify-center
+  }
 }
