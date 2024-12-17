@@ -21,7 +21,7 @@ const MobileNavbar = () => {
         <SheetHeader>
           <SheetDescription className="flex flex-col gap-5">
             {navroutes.map((route, index) => (
-              <Link href={route.href}>{route.label}</Link>
+              <Link href={route.href} key={index}>{route.label}</Link>
             ))}
           </SheetDescription>
         </SheetHeader>
