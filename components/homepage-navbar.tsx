@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import MobileNavbar from "./mobile-navbar";
 
 export const navroutes = [
   {
@@ -41,8 +42,8 @@ const HomepageNavbar = () => {
     };
   }, []);
   return (
-    <nav className={`w-full p-5  hidden lg:flex justify-center items-center transition-colors duration-300 ease-in ${isScrolled && "bg-neutral-900/80"}`}>
-      <div className="flex gap-4 uppercase text-white text-sm">
+    <nav className={`w-full justify-center p-5 items-center flex transition-colors duration-300 ease-in ${isScrolled && "bg-neutral-900/80"}`}>
+      <div className="gap-4 uppercase hidden lg:flex items-center justify-center text-white text-sm">
         {navroutes.map((route, index) => (
           <Link
             href={route.href}
@@ -53,6 +54,7 @@ const HomepageNavbar = () => {
           </Link>
         ))}
       </div>
+      <MobileNavbar />
     </nav>
   );
 };

@@ -51,10 +51,10 @@ const testimony = [
 const AboutMe = () => {
   return (
     <section className="py-10 px-10 sm:py-24" id="about">
-      <h1 className="text-center text-4xl font-bold mb-5">About me</h1>
-      <div className="flex gap-5 flex-col sm:flex-row w-full">
+      <h1 className="text-center text-4xl font-bold mb-5 capitalize">About me</h1>
+      <div className="flex gap-5 flex-col lg:flex-row w-full">
         <div className="flex-shrink-0">
-          <Image src={"/profile.jpeg"} alt="profile" width={500} height={500} />
+          <Image src={"/profile.jpeg"} alt="profile" width={500} height={500} className="mx-auto" />
         </div>
         <div className="">
           <p>
@@ -98,7 +98,7 @@ const AboutMe = () => {
             {aboutdata.map((data, index) => (
               <div className="" key={index}>
                 <div className="flex justify-between items-center mb-1">
-                  <p className="font-medium">{data.title}</p>
+                  <p className="font-medium capitalize">{data.title}</p>
                   <p>{data.figure}%</p>
                 </div>
                 <Progress value={data.figure} />

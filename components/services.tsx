@@ -1,15 +1,14 @@
 import {
-    BadgeDollarSign,
-    Bitcoin,
-    ChartBarStacked,
-    ChartCandlestick,
-    ChartNoAxesCombined,
-    ChartSpline,
-    DollarSign,
-    Headset
+  BadgeDollarSign,
+  Bitcoin,
+  ChartBarStacked,
+  ChartCandlestick,
+  ChartNoAxesCombined,
+  ChartSpline,
+  DollarSign,
+  Headset,
 } from "lucide-react";
 import { GiFamilyHouse } from "react-icons/gi";
-import { BorderBeam } from "./ui/border-beam";
 import { Card } from "./ui/card";
 const myservices = [
   {
@@ -65,25 +64,22 @@ const myservices = [
 ];
 const Services = () => {
   return (
-    <section className="py-10 px-5 sm:px-10  sm:py-24">
-      <div className="">
-        <h1 className="text-center text-4xl font-bold mb-5">Services</h1>
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {myservices.map((service, index) => (
-            <Card className="relative shadow-lg" key={index}>
-              <div className="p-5">
-                <div className="center flex-col">
-                  <div className="center size-20 bg-brand-4/30 rounded-full">
-                    <service.Icon className="text-gray-900 size-6" />
-                  </div>
-                  <p className="font-bold my-5 text-lg">{service.title}</p>
+    <section className="py-10 px-2 sm:px-10  sm:py-24">
+      <h1 className="text-center text-4xl font-bold mb-5">Services</h1>
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {myservices.map((service, index) => (
+          <Card className="relative w-full" key={index}>
+            <div className="p-5">
+              <div className="center flex-col">
+                <div className="center size-20 bg-brand-4/30 rounded-full">
+                  <service.Icon className="text-gray-900 size-6" />
                 </div>
-                <p>{service.desc}</p>
+                <p className="font-bold my-5 text-lg">{service.title}</p>
               </div>
-              <BorderBeam  />
-            </Card>
-          ))}
-        </div>
+              <p className="text-sm sm:text-lg text-pretty">{service.desc}</p>
+            </div>
+          </Card>
+        ))}
       </div>
     </section>
   );
