@@ -12,8 +12,8 @@ const DashboardNavbar = () => {
         <Link href={"/"}>TradingExperts</Link>
         <div className="flex items-center text-sm gap-5">
           <div className="flex">
-            <p>Account status:</p>
-            <span className="text-green-500 animate-pulse flex items-center">
+            <p className="font-bold">Account status:</p>
+            <span className="text-green-500 animate-pulse font-bold flex items-center">
               <CheckCircle className="size-3" />
               Active
             </span>

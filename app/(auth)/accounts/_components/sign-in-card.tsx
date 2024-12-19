@@ -14,10 +14,12 @@ import { Input } from "@/components/ui/input";
 import { signinSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const SignInCard = () => {
+  const router = useRouter()
   const form = useForm<z.infer<typeof signinSchema>>({
     resolver: zodResolver(signinSchema),
     defaultValues: {
@@ -29,7 +31,8 @@ const SignInCard = () => {
   function onSubmit(values: z.infer<typeof signinSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+    router.push("/dashboard")
+    
   }
   return (
     <Card className="w-[500px]">

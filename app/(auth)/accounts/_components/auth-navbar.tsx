@@ -7,7 +7,9 @@ export const AuthNavbar = () => {
       <div className="flex justify-between items-center">
         <Link href={"/"}>TradingExpert</Link>
         <div className="flex items-center justify-center size-10 hover:border hover:border-gray-900">
-          <Globe className="" />
+          <Link href={"/dashboard"}>
+            <Globe className="" />
+          </Link>
         </div>
       </div>
     </div>

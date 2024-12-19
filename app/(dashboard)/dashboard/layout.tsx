@@ -5,7 +5,7 @@ import DashboardFooter from "./_components/dashboard-footer";
 
 const DashboardLayout = ({ children }: PropsWithChildren) => {
   return (
-    <div className="">
+    <div className="h-full w-full">
       <DashboardNavbar />
       {children}
       <DashboardFooter />
