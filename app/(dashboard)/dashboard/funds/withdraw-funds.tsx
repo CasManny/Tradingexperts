@@ -13,6 +13,13 @@ import TronCard from "../_components/cards/tron-card";
 import BankTransferCard from "../_components/cards/bank-transfer-card";
 import NetellerCard from "../_components/cards/neteller-card";
 import WesterUnionCard from "../_components/cards/western-union-card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const WithdrawFunds = () => {
   const [paymentMethod, setPaymentMethod] = useState<PaymentType>("Bitcoin");
@@ -47,23 +54,25 @@ const WithdrawFunds = () => {
     }
   };
   return (
-    <div className="py-0 sm:py-0">
+    <div className="py-0 sm:py-0 px-5">
       <div className="w-full">
         <div className="p-2 my-10 rounded font-bold w-full max-w-[500px] bg-neutral-900 text-white">
           <p>0.00 USD</p>
           <p>Net Balance: 0.00 USD</p>
         </div>
-        <h1 className="text-center mb-4 text-4xl">Choose Withdrawal Method</h1>
+        <h1 className="text-center mb-4 sm:text-4xl text-2xl font-bold">
+          Choose Withdrawal Method
+        </h1>
         <p>
           <span className="font-extrabold">Important:</span>
           Chosen withdrawal method should correspond with method used for
           deposit.
         </p>
-        <p className="font-extrabold text-3xl my-5">
+        <p className="font-extrabold text-3xl my-5 text-pretty">
           Your available balance is: 0.00 USD
         </p>
       </div>
-      <div className="relative p-20 bg-neutral-900 flex justify-between text-white w-full">
+      <div className="relative p-20 bg-neutral-900 justify-between text-white w-full hidden lg:flex">
         <div className="absolute top-0 left-0 p-2 bg-red-500 text-white">
           recommend
         </div>
@@ -89,6 +98,33 @@ const WithdrawFunds = () => {
             </p>
           </div>
         ))}
+      </div>
+      <div className="lg:hidden">
+        <Select>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="select withdrawal method" />
+          </SelectTrigger>
+          <SelectContent>
+            {fundingMethods.map((method, index) => (
+              <SelectItem
+                value={method.name}
+                key={index}
+                className=" cursor-pointer"
+                onClick={() => handlePaymentMethod(method.name)}
+              >
+                <div className="flex items-center gap-2">
+                  <Image
+                    src={method.image}
+                    alt={method.name}
+                    width={20}
+                    height={20}
+                  />
+                  <p>{method.name}</p>
+                </div>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
       <div className="mt-5">{renderPaymentCard()}</div>
       <div className="my-10">

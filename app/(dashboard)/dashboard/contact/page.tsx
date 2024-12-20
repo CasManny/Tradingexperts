@@ -23,7 +23,7 @@ const info = [
 
 const ContactUs = () => {
   return (
-    <section className="max-w-5xl w-full mx-auto py-10">
+    <section className="max-w-5xl w-full mx-auto py-12 sm:py-24 px-5">
       <div className="my-10">
         <h1 className="text-5xl font-extrabold">Get In Touch</h1>
         <p>We will get back to you as soon as possible</p>

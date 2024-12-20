@@ -4,7 +4,7 @@ import { DataTable } from "./data-table";
 
 const ReferralPage = () => {
   return (
-    <DashboardPageWrapper title="My Referrals">
+    <DashboardPageWrapper title="My Referrals" className="px-5">
       <div className="font-semibold text-xl my-5">
         <p className="">Your Referral ID : sabastine</p>
         <p className="">

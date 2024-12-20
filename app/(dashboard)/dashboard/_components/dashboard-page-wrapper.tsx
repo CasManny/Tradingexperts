@@ -11,7 +11,7 @@ const DashboardPageWrapper = ({
   className,
 }: DashboardPageWrapperProps) => {
   return (
-    <section className={cn("py-10 sm:py-24 w-full",)}>
+    <section className={cn("py-10 sm:py-24 w-full",className)}>
       <div className="max-w-7xl mx-auto">
         <h1 className="text-5xl text-center font-extrabold text-neutral-900">
           {title}

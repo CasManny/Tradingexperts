@@ -1,16 +1,18 @@
+"use client"
 import { Button } from "@/components/ui/button";
-import { Banknote, CheckCircle, CirclePower } from "lucide-react";
+import { Banknote, CheckCircle, CirclePower, Menu } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { TradingViewDetails } from "./trading-view-details";
 import DashboardAccountDetails from "./dashboard-account-details";
+import DashboardMobileNavbar from "./dashboard-mobile-navbar";
 
 const DashboardNavbar = () => {
   return (
     <div className="px-2">
       <div className="flex justify-between items-center p-4">
         <Link href={"/"}>TradingExperts</Link>
-        <div className="flex items-center text-sm gap-5">
+        <div className="items-center text-sm gap-5 hidden lg:flex">
           <div className="flex">
             <p className="font-bold">Account status:</p>
             <span className="text-green-500 animate-pulse font-bold flex items-center">
@@ -31,8 +33,11 @@ const DashboardNavbar = () => {
             Deposite Funds
           </Button>
         </div>
+        <div className="lg:hidden">
+          <DashboardMobileNavbar />
+        </div>
       </div>
-      <div className="flex justify-between items-center">
+      <div className="justify-between items-center hidden lg:flex">
         <TradingViewDetails />
         <DashboardAccountDetails />
       </div>

@@ -3,7 +3,7 @@ import SettingsTab from "./settings-tab";
 
 const SettingsPage = () => {
   return (
-    <DashboardPageWrapper title="Account Settings">
+    <DashboardPageWrapper title="Account Settings" className="px-5">
       <SettingsTab />
     </DashboardPageWrapper>
   );

@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { PropsWithChildren } from "react";
 import DashboardNavbar from "./_components/navbar";
 import DashboardFooter from "./_components/dashboard-footer";

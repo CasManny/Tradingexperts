@@ -1,21 +1,22 @@
 import {
-    NavigationMenu,
-    NavigationMenuContent,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger
 } from "@/components/ui/navigation-menu";
 import {
-    Banknote,
-    CalendarSync,
-    ChartCandlestick,
-    Headphones,
-    History,
-    LockKeyholeIcon,
-    Menu,
-    User,
-    UsersRound
+  Banknote,
+  CalendarSync,
+  ChartCandlestick,
+  Headphones,
+  History,
+  LockKeyholeIcon,
+  Menu,
+  Settings,
+  User,
+  UsersRound
 } from "lucide-react";
 
 import Link from "next/link";
@@ -66,7 +67,7 @@ const DashboardAccountDetails = () => {
             <NavigationMenuList>
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="flex-center">
-                  <Menu className="size-4" />
+                  <Settings className="size-4" />
                   Settings
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="w-40">
