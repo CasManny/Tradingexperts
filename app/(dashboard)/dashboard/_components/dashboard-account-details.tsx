@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 
 import Link from "next/link";
+import "./component.css";
 
 const DashboardAccountDetails = () => {
   return (
@@ -33,7 +34,7 @@ const DashboardAccountDetails = () => {
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="flex-center">
+                <NavigationMenuTrigger className="flex-center list">
                   <Banknote />
                   Account
                 </NavigationMenuTrigger>
@@ -66,7 +67,7 @@ const DashboardAccountDetails = () => {
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="flex-center">
+                <NavigationMenuTrigger className="flex-center list">
                   <Settings className="size-4" />
                   Settings
                 </NavigationMenuTrigger>
@@ -99,7 +100,7 @@ const DashboardAccountDetails = () => {
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="flex-center">
+                <NavigationMenuTrigger className="flex-center list">
                   <Menu className="size-4" />
                   Statements
                 </NavigationMenuTrigger>

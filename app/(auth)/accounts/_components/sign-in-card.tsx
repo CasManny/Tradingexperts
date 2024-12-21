@@ -17,9 +17,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useState } from "react";
+import api from "@/lib/api.js";
 
 const SignInCard = () => {
-  const router = useRouter()
+  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+
   const form = useForm<z.infer<typeof signinSchema>>({
     resolver: zodResolver(signinSchema),
     defaultValues: {
@@ -28,12 +32,21 @@ const SignInCard = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof signinSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    router.push("/dashboard")
-    
+  async function onSubmit(values: z.infer<typeof signinSchema>) {
+    setError(null); // Clear any previous errors
+    try {
+      const { data } = await api.post("/auth/login", {
+        email: values.email,
+        password: values.password,
+      });
+
+      localStorage.setItem("token", data.token); // Store token in localStorage
+      router.push("/dashboard"); // Redirect to dashboard
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Something went wrong. Please try again.");
+    }
   }
+
   return (
     <Card className="w-[500px]">
       <CardHeader>
@@ -47,9 +60,9 @@ const SignInCard = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm">Your email address</FormLabel>
+                  <FormLabel className="text-sm">Email address</FormLabel>
                   <FormControl>
-                    <Input placeholder="" {...field} />
+                    <Input placeholder="Enter your email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -62,22 +75,23 @@ const SignInCard = () => {
                 <FormItem>
                   <FormLabel className="text-sm">Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="" {...field} />
+                    <Input type="password" placeholder="Enter your password" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            {error && <p className="text-red-500 text-sm text-center">{error}</p>}
             <Button
               type="submit"
               className="w-full bg-brand-2 hover:bg-brand-1 text-neutral-900 font-bold"
             >
-              continue
+              Continue
             </Button>
             <div className="mt-2">
               <p className="text-center">
                 Don&apos;t have an account?{" "}
-                <Link href={"/accounts/sign-up"} className="underline text-blue-700 tracking-wide">create an account</Link>
+                <Link href={"/accounts/sign-up"} className="underline text-blue-700 tracking-wide">Create an account</Link>
               </p>
             </div>
           </form>

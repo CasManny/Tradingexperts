@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Button } from "@/components/ui/button";
 import { Banknote, CheckCircle, CirclePower, Menu } from "lucide-react";
 import Link from "next/link";
@@ -6,10 +6,11 @@ import React from "react";
 import { TradingViewDetails } from "./trading-view-details";
 import DashboardAccountDetails from "./dashboard-account-details";
 import DashboardMobileNavbar from "./dashboard-mobile-navbar";
+import "./component.css";
 
 const DashboardNavbar = () => {
   return (
-    <div className="px-2">
+    <div className="px-2 nav">
       <div className="flex justify-between items-center p-4">
         <Link href={"/"}>TradingExperts</Link>
         <div className="items-center text-sm gap-5 hidden lg:flex">
@@ -25,8 +26,10 @@ const DashboardNavbar = () => {
             <span>Basic</span>
           </div>
           <div className="flex items-center gap-[0.5] uppercase">
-            <CirclePower className="size-3" />
-            <span>Logout</span>
+            <Link href={"/accounts/logout"} className="flex-center">
+              <CirclePower className="size-3" />
+              Logout
+            </Link>
           </div>
           <Button className="h-8 bg-red-500">
             <Banknote />

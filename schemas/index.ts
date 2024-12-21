@@ -6,13 +6,12 @@ export const signinSchema = z.object({
 })
 
 export const signupSchema = z.object({
+    username: z.string(),
+    fullName: z.string(),
+    phone: z.string(),
     country: z.string().min(1, "Please enter your country name"),
     email: z.string().email(),
     password: z.string()
     .min(8)
-    .max(15)
-    .regex(/[A-Z]/, { message: 'At least one uppercase letter' })
-    .regex(/[a-z]/, { message: 'At least one lowercase letter' })
-    .regex(/[0-9]/, { message: 'At least one number' })
-    .regex(/[!@#$%^&*(),.?":{}|<>]/, { message: 'At least one special character' })
+    .max(25)
 })
