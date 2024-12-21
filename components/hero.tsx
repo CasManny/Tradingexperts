@@ -19,7 +19,7 @@ const Hero = () => {
           </p>
         </div>
       </div>
-      <Globe className="-z-10 top-24" />
+      {/* <Globe className="-z-10 top-24" /> */}
     </section>
   );
 };

@@ -3,12 +3,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signupSchema } from "@/schemas";
@@ -17,41 +17,81 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import api from "@/lib/api.js"; // Import the Axios instance
 
 export const SignUpCard = () => {
-  const router = useRouter()
+  const router = useRouter();
+
+  // Initialize form with validation
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      username: "",
+      fullName: "",
       country: "",
+      email: "",
+      phone: "",
+      password: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof signupSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    router.push('/dashboard')
+  // Handle form submission
+  async function onSubmit(values: z.infer<typeof signupSchema>) {
+    try {
+      const response = await api.post("/auth/signup", values);
+      if (response.status === 200) {
+        alert("Account created successfully!");
+        router.push(`/dashboard?${response.data.email}`);
+      }
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.message || "Something went wrong!";
+      alert(errorMessage);
+    }
   }
+
   return (
-    <Card className="w-[500px]">
+    <Card className="w-[600px]">
       <CardHeader>
-        <CardTitle>Create an account</CardTitle>
+        <CardTitle>Create Your Account</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm">Username</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter a unique username" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="fullName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm">Full Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter your full name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="country"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm">
-                    Country / Region of residence
-                  </FormLabel>
+                  <FormLabel className="text-sm">Country</FormLabel>
                   <FormControl>
-                    <Input placeholder="" {...field} />
+                    <Input placeholder="Country of residence" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -62,9 +102,22 @@ export const SignUpCard = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm">Your email address</FormLabel>
+                  <FormLabel className="text-sm">Email Address</FormLabel>
                   <FormControl>
-                    <Input placeholder="" {...field} />
+                    <Input placeholder="Enter your email address" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm">Phone Number</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter your phone number" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -77,7 +130,11 @@ export const SignUpCard = () => {
                 <FormItem>
                   <FormLabel className="text-sm">Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="" {...field} />
+                    <Input
+                      type="password"
+                      placeholder="Enter a strong password"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -87,7 +144,7 @@ export const SignUpCard = () => {
               type="submit"
               className="w-full bg-brand-2 hover:bg-brand-1 text-neutral-900 font-bold"
             >
-              register
+              Register
             </Button>
             <div className="mt-2">
               <p className="text-center">
@@ -96,7 +153,7 @@ export const SignUpCard = () => {
                   href={"/accounts/sign-in"}
                   className="underline text-blue-700 tracking-wide"
                 >
-                  login!
+                  Login!
                 </Link>
               </p>
             </div>

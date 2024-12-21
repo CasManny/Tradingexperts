@@ -5,6 +5,7 @@ import { Screener } from "react-ts-tradingview-widgets";
 import ChartSettings from "./_components/chart-settings";
 import { TradingHistoryDataTable } from "./_components/trading-history/trading-data-table";
 import { TradingHistorycolumns } from "./_components/trading-history/trading-columns";
+import PrivateRoute from "@/lib/private";
 
 const DashboardHome = () => {
   return (
@@ -12,7 +13,8 @@ const DashboardHome = () => {
       <div className="relative">
         <div className="absolute bg-red-500 text-white p-3">Live Forex:</div>
         <TickerTape
-          colorTheme="light"
+          colorTheme="dark"
+          displayMode="regular"
           copyrightStyles={{
             parent: {
               display: "none",
@@ -23,12 +25,12 @@ const DashboardHome = () => {
       <div className="flex flex-col lg:flex-row mt-5">
         <div className="overflow-auto no-scrollbar hidden lg:flex">
           <Screener
-            colorTheme="light"
+            colorTheme="dark"
             width="100%"
-            height={500}
+            height={600}
             copyrightStyles={{
               parent: {
-                display: "none",
+                display: "none"
               },
             }}
           ></Screener>
@@ -40,10 +42,12 @@ const DashboardHome = () => {
                 display: "none",
               },
             }}
-            theme="light"
+            theme="dark"
             width={"100%"}
-            height={800}
-            autosize
+            height={650}
+            allow_symbol_change
+            symbol="BLACKBULL:BRENT"
+            studies={["MACD@tv-basicstudies"]}
           ></AdvancedRealTimeChart>
         </div>
         <div className="">
@@ -67,4 +71,4 @@ const DashboardHome = () => {
   );
 };
 
-export default DashboardHome;
+export default PrivateRoute(DashboardHome);
