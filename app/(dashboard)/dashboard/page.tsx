@@ -30,7 +30,6 @@ const options: Option[] = [
       "TRON",
       "Bitcoin Cash",
       "Binance Coin",
-
     ],
     symbol: [
       "Bitcoin",
@@ -40,7 +39,6 @@ const options: Option[] = [
       "TRON",
       "Bitcoin Cash",
       "Binance Coin",
-
     ],
   },
   {
@@ -101,7 +99,6 @@ const options: Option[] = [
   {
     name: "Stocks",
     assets: [
-      "Alphabet Inc.",
       "Amazon.com Inc.",
       "Apple Inc.",
       "Baidu, Inc. ADR",
@@ -109,16 +106,17 @@ const options: Option[] = [
       "Facebook Inc.",
       "Intel Corporation",
       "Microsoft Corporation",
+      "Alphabet Inc.",
     ],
     symbol: [
-      "Alphabet Inc.",
-      "Amazon.com Inc.",
-      "Apple Inc.",
-      "Baidu, Inc. ADR",
-      "Cisco Systems Inc.",
-      "Facebook Inc.",
-      "Intel Corporation",
-      "Microsoft Corporation",
+      "Amazon",
+      "Apple",
+      "Baidu",
+      "Cisco",
+      "Facebook",
+      "Intel",
+      "Microsoft",
+      "Alphabet",
     ],
   },
 ];
