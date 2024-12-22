@@ -1,6 +1,6 @@
-'use client'
-import React, { useEffect, useState } from 'react';
-import type { FC } from 'react';
+"use client";
+import React, { useEffect, useState } from "react";
+import type { FC } from "react";
 
 interface NotificationProps {
   messages: string[];
@@ -13,7 +13,8 @@ const Notification: FC<NotificationProps> = ({ messages, delay }) => {
 
   useEffect(() => {
     const loop = () => {
-      const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+      const randomMessage =
+        messages[Math.floor(Math.random() * messages.length)];
       setCurrentMessage(randomMessage);
       setShow(true);
       setTimeout(() => {
@@ -34,9 +35,9 @@ const Notification: FC<NotificationProps> = ({ messages, delay }) => {
   return (
     <div
       className={`fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded shadow-md transition-transform duration-500 ease-in-out ${
-        show ? 'translate-x-0' : 'translate-x-full'
+        show ? "translate-x-0" : "translate-x-full"
       }`}
-      style={{ transform: show ? 'translateX(0)' : 'translateX(100%)' }}
+      style={{ transform: show ? "translateX(0)" : "translateX(100%)" }}
     >
       {currentMessage}
     </div>
@@ -44,9 +45,3 @@ const Notification: FC<NotificationProps> = ({ messages, delay }) => {
 };
 
 export default Notification;
-
-
-
-
-
-
