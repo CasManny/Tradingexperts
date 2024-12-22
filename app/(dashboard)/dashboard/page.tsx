@@ -6,8 +6,93 @@ import ChartSettings from "./_components/chart-settings";
 import { TradingHistoryDataTable } from "./_components/trading-history/trading-data-table";
 import { TradingHistorycolumns } from "./_components/trading-history/trading-columns";
 import PrivateRoute from "@/lib/private";
+import { useState } from "react";
+
+type Option = {
+  name: string;
+  assets: string[];
+};
+
+const options: Option[] = [
+  {
+    name: "Commodities",
+    assets: ["Crude oil Brent", "Crude oil WTI", "Gold", "Silver"],
+  },
+  {
+    name: "Crypto",
+    assets: [
+      "Binance Coin",
+      "Bitcoin",
+      "Bitcoin Cash",
+      "Dash",
+      "Ethereum",
+      "Litecoin",
+      "TRON",
+    ],
+  },
+  {
+    name: "Digital Options",
+    assets: [
+      "AUD/CAD",
+      "AUD/JPY",
+      "EUR/USD",
+      "GBP/USD",
+      "GBP/JPY",
+      "NZD/USD",
+      "USD/CHF",
+      "USD/XOF",
+      "USD/ZAR",
+    ],
+  },
+  {
+    name: "Forex",
+    assets: [
+      "AUD/CAD",
+      "AUD/JPY",
+      "EUR/GBP",
+      "EUR/USD",
+      "GBP/USD",
+      "GPB/JPY",
+      "NZD/USD",
+      "USD/CHF",
+      "USD/JPY",
+    ],
+  },
+  {
+    name: "Indices",
+    assets: ["DAX", "DJIA", "FTSE 100", "NASDAQ 100", "S&P 500"],
+  },
+  {
+    name: "Stocks",
+    assets: [
+      "Alphabet Inc.",
+      "Amazon.com Inc.",
+      "Apple Inc.",
+      "Baidu, Inc. ADR",
+      "Cisco Systems Inc.",
+      "Facebook Inc.",
+      "Intel Corporation",
+      "Microsoft Corporation",
+    ],
+  },
+];
 
 const DashboardHome = () => {
+  const [selectedOption, setSelectedOption] = useState<Option>(options[0]);
+  const [selectedAsset, setSelectedAsset] = useState<string>(
+    options[0].assets[0]
+  );
+
+  const handleOptionChange = (name: string) => {
+    const option = options.find((opt) => opt.name === name) || options[0];
+    setSelectedOption(option);
+    setSelectedAsset(option.assets[0]); // Automatically select the first asset
+  };
+
+  const handleAssetChange = (asset: string) => {
+    setSelectedAsset(asset);
+  };
+
   return (
     <div className="w-full">
       <div className="relative">
@@ -30,7 +115,7 @@ const DashboardHome = () => {
             height={600}
             copyrightStyles={{
               parent: {
-                display: "none"
+                display: "none",
               },
             }}
           ></Screener>
@@ -51,7 +136,13 @@ const DashboardHome = () => {
           ></AdvancedRealTimeChart>
         </div>
         <div className="">
-          <ChartSettings />
+          <ChartSettings
+            options={options}
+            selectedOption={selectedOption}
+            selectedAsset={selectedAsset}
+            onOptionChange={handleOptionChange}
+            onAssetChange={handleAssetChange}
+          />
         </div>
       </div>
       <div className="py-20">
@@ -71,4 +162,6 @@ const DashboardHome = () => {
   );
 };
 
-export default PrivateRoute(DashboardHome);
+// export default PrivateRoute(DashboardHome);
+
+export default DashboardHome;

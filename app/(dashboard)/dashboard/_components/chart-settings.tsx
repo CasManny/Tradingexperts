@@ -33,7 +33,26 @@ const expirationTime = [
   "5 hours",
 ];
 
-const ChartSettings = () => {
+type Option = {
+  name: string;
+  assets: string[];
+};
+
+type ChartSettingsProps = {
+  options: Option[];
+  selectedOption: Option;
+  selectedAsset: string;
+  onOptionChange: (name: string) => void;
+  onAssetChange: (asset: string) => void;
+};
+
+const ChartSettings = ({
+  options,
+  selectedOption,
+  selectedAsset,
+  onOptionChange,
+  onAssetChange,
+}: ChartSettingsProps) => {
   return (
     <div className="px-5 w-full">
       <UserAccountBalance />
@@ -44,14 +63,14 @@ const ChartSettings = () => {
             <CircleHelp className="text-neutral-900 size-4" />
           </div>
           <div className="mt-2">
-            <Select>
+            <Select value={selectedOption.name} onValueChange={onOptionChange}>
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Commodities" />
+                <SelectValue placeholder={selectedOption.name} />
               </SelectTrigger>
               <SelectContent>
-                {optionsType.map((option, index) => (
-                  <SelectItem value={option} key={index}>
-                    <p className="capitalize font-bold">{option}</p>
+                {options.map((option, index) => (
+                  <SelectItem value={option.name} key={index}>
+                    <p className="capitalize font-bold">{option.name}</p>
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -64,14 +83,14 @@ const ChartSettings = () => {
             <CircleHelp className="text-neutral-900 size-4" />
           </div>
           <div className="mt-2">
-            <Select>
+            <Select value={selectedAsset} onValueChange={onAssetChange}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Crude oil Bent" />
               </SelectTrigger>
               <SelectContent>
-                {assetType.map((asset, index) => (
-                  <SelectItem value={asset} key={index}>
-                    <p className="capitalize font-bold">{asset}</p>
+                {selectedOption.assets.map((asset) => (
+                  <SelectItem value={asset} key={asset}>
+                    {asset}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -125,7 +144,9 @@ const ChartSettings = () => {
         </div>
         <div className="text-white space-y-2 flex flex-col">
           <Button className="bg-green-500 p-8">CALL</Button>
-          <Button variant={'destructive'} className="p-8">PUT</Button>
+          <Button variant={"destructive"} className="p-8">
+            PUT
+          </Button>
         </div>
       </div>
     </div>
