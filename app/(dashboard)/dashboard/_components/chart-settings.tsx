@@ -8,8 +8,9 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@/components/ui/select";
+import { Dispatch, SetStateAction } from "react";
 
 const optionsType = [
   "commodities",
@@ -41,6 +42,10 @@ type ChartSettingsProps = {
   selectedAsset: string;
   onOptionChange: (name: string) => void;
   onAssetChange: (asset: string) => void;
+  amount: number;
+  setAmount: Dispatch<SetStateAction<number>>;
+  confirmPutTrade: () => Promise<unknown>;
+  confirmCallTrade: () => Promise<unknown>;
 };
 
 const ChartSettings = ({
@@ -49,7 +54,17 @@ const ChartSettings = ({
   selectedAsset,
   onOptionChange,
   onAssetChange,
+  amount,
+  setAmount,
+  confirmPutTrade,
+  confirmCallTrade
 }: ChartSettingsProps) => {
+  const handleConfirmPutTrade = () => {
+    confirmPutTrade()
+  };
+  const handleConfirmCallTrade = () => {
+    confirmCallTrade()
+  };
   return (
     <div className="px-5 w-full">
       <UserAccountBalance />
@@ -100,7 +115,12 @@ const ChartSettings = ({
             <CircleHelp className="text-neutral-900 size-4" />
           </div>
           <div className="mt-2">
-            <Input type="number" className="" />
+            <Input
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(Number(e.target.value))}
+              className=""
+            />
           </div>
         </div>
         <div className="">
@@ -140,8 +160,17 @@ const ChartSettings = ({
           </p>
         </div>
         <div className="text-white space-y-2 flex flex-col">
-          <Button className="bg-green-500 p-8">CALL</Button>
-          <Button variant={"destructive"} className="p-8">
+          <Button
+            className="bg-green-500 p-8 hover:bg-green-600"
+            onClick={handleConfirmCallTrade}
+          >
+            CALL
+          </Button>
+          <Button
+            variant={"destructive"}
+            className="p-8"
+            onClick={handleConfirmPutTrade}
+          >
             PUT
           </Button>
         </div>

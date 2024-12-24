@@ -7,6 +7,7 @@ import { TradingHistoryDataTable } from "./_components/trading-history/trading-d
 import { TradingHistorycolumns } from "./_components/trading-history/trading-columns";
 import PrivateRoute from "@/lib/private";
 import { useState } from "react";
+import { useConfirmTrading } from "./_components/hooks/use-confirm";
 
 type Option = {
   name: string;
@@ -127,6 +128,14 @@ const DashboardHome = () => {
     options[0].assets[0]
   );
 
+  const [amount, setAmount] = useState<number>(0);
+
+  // for the modal display
+  const [CallConfrimationModal, confirmCallTrade] = useConfirmTrading({ title: "Trade Confirmation", message: `Execute call order on ${selectedAsset}`, variant: "success" })
+  const [PutConfrimationModal, confirmPutTrade] = useConfirmTrading({ title: "Trade Confirmation", message: `Execute Put order on ${selectedAsset}`, variant: "success" })
+  
+
+
   const handleOptionChange = (name: string) => {
     const option = options.find((opt) => opt.name === name) || options[0];
     setSelectedOption(option);
@@ -144,6 +153,8 @@ const DashboardHome = () => {
 
   return (
     <div className="w-full">
+      <CallConfrimationModal />
+      <PutConfrimationModal />
       <div className="relative">
         <div className="absolute bg-red-500 text-white p-3">Live Forex:</div>
         <TickerTape
@@ -191,6 +202,10 @@ const DashboardHome = () => {
             selectedAsset={selectedAsset}
             onOptionChange={handleOptionChange}
             onAssetChange={handleAssetChange}
+            amount={amount}
+            setAmount={setAmount}
+            confirmPutTrade={confirmPutTrade}
+            confirmCallTrade={confirmCallTrade}
           />
         </div>
       </div>

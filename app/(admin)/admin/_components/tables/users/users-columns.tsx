@@ -11,7 +11,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, CheckCircle, Edit, MoreHorizontal } from "lucide-react";
+import {
+  ArrowUpDown,
+  CheckCircle,
+  Edit,
+  MoreHorizontal,
+  Telescope,
+} from "lucide-react";
 import Link from "next/link";
 
 // This type is used to define the shape of our data.
@@ -129,18 +135,23 @@ export const Usercolumns: ColumnDef<User>[] = [
               <MoreHorizontal />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end" className="p-5">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem asChild>
               <Link href={`/admin/users/${user.id}`}>
-                <Edit />
-                Edit User
+                <Button size={"icon"} variant={"outline"}>
+                  <Edit className="h-10 w-10" />
+                </Button>
+                <p className="text-xl">Edit User</p>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link href={`/admin/users/${user.id}/transactions`}>
-                View User Transactiions
+                <Button variant={'outline'} size={'icon'}>
+                  <Telescope className="size-10" />
+                </Button>
+                <p className="text-xl">View User Transactiions</p>
               </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>

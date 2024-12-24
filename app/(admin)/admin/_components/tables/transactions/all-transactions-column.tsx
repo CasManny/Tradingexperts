@@ -3,19 +3,19 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
 import {
-    ArrowUpDown,
-    CheckCircle2,
-    MoreHorizontal,
-    Trash2,
+  ArrowUpDown,
+  CheckCircle2,
+  MoreHorizontal,
+  Trash2,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -104,19 +104,26 @@ export const AllTransactionsColumns: ColumnDef<User>[] = [
               <MoreHorizontal />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end" className="p-5">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem asChild>
               <Link href={`/admin/transactions/${user.id}`}>
-                <Trash2 className="text-red-500" />
-                Delete Transaction
+                <Button variant={"outline"}>
+                  <Trash2 className="text-red-500" />
+                </Button>
+                <p className="text-xl">Delete Transaction</p>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link href={`/admin/transactions/${user.id}`}>
-                <CheckCircle2 className="text-brand-2" />
-                Approve Transaction
+              <Link
+                href={`/admin/transactions/${user.id}`}
+                className="text-2xl"
+              >
+                <Button variant={"outline"}>
+                  <CheckCircle2 className="text-brand-2 size-8" />
+                </Button>
+                <p className="text-xl">Approve Transaction</p>
               </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>

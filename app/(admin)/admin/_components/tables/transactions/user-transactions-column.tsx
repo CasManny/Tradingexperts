@@ -3,19 +3,19 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ColumnDef } from "@tanstack/react-table";
 import {
-    ArrowUpDown,
-    CheckCircle2,
-    MoreHorizontal,
-    Trash2,
+  ArrowUpDown,
+  CheckCircle2,
+  MoreHorizontal,
+  Trash2,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -108,15 +108,15 @@ export const UserTransactionsColumns: ColumnDef<User>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem asChild>
               <Link href={`/admin/transactions/${user.id}`}>
-                <Trash2 className="text-red-500" />
-                Delete Transaction
+                <Trash2 className="text-red-500 size-10" />
+                <p className="text-xl">Delete Transaction</p>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link href={`/admin/transactions/${user.id}`}>
                 <CheckCircle2 className="text-brand-2" />
-                Approve Transaction
+                <p className="text-xl">Approve Transaction</p>
               </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
