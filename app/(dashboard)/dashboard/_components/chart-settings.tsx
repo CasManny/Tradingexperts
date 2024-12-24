@@ -1,18 +1,15 @@
-import React from "react";
-import UserAccountBalance from "./user-account-balance";
 import { CircleHelp } from "lucide-react";
+import UserAccountBalance from "./user-account-balance";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 
 const optionsType = [
   "commodities",
