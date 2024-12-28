@@ -1,5 +1,4 @@
 import { Award, Clock, Clock7, Smile } from "lucide-react";
-import Image from "next/image";
 import NumberTicker from "./ui/number-ticker";
 import { cn } from "@/lib/utils";
 import { Progress } from "./ui/progress";
@@ -54,7 +53,7 @@ const AboutMe = () => {
       <h1 className="text-center text-4xl font-bold mb-5 capitalize">About me</h1>
       <div className="flex gap-5 flex-col lg:flex-row w-full">
         <div className="flex-shrink-0">
-          <Image src={"/profile.jpeg"} alt="profile" width={500} height={500} className="mx-auto" />
+          <img src={"/profile.jpeg"} alt="profile" width={500} height={500} className="mx-auto" />
         </div>
         <div className="">
           <p>

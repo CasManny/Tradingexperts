@@ -1,20 +1,9 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import { ImageIcon } from "lucide-react";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import {
   Select,
   SelectContent,
@@ -22,178 +11,128 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {  ImageIcon, Upload } from "lucide-react";
-
-const formSchema = z.object({
-  firstname: z.string().min(1, "Required"),
-  lastname: z.string(),
-  email: z.string().email(),
-  username: z.string(),
-  phone: z.string(),
-  country: z.string(),
-});
+import { useStore } from "@/lib/store";
+import api from "@/lib/api";
+import Form from "./user-form";
 
 const Verification = ["Intl Passport", "Personal ID", "Others"];
 
 const AccountDataForm = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      username: "john Doe",
-      email: "example@gmail.com",
-      firstname: "",
-      lastname: "",
-      country: "",
-      phone: "",
-    },
-  });
+  const { data, isLoading, isError } = useStore();
+  const [loading, setLoading] = useState(false);
+  const [idType, setIdType] = useState<string>("");
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-  }
+  const SwalWithReact = withReactContent(Swal);
+
+  const handleImageUpload = async (file: File) => {
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("idType", idType); // Append selected idType here
+
+    try {
+      setLoading(true);
+      await api.post("/client/upload", formData);
+      SwalWithReact.fire({
+        title: "Upload Successful",
+        text: `ID upload complete.`,
+        icon: "success",
+        timer: 3000,
+        showConfirmButton: false,
+      }).then(() => {
+        setLoading(false);
+      });
+    } catch (error: any) {
+      setLoading(false);
+      console.error("Error uploading file:", error);
+      SwalWithReact.fire({
+        title: "Upload Failed",
+        text: error.response.data.error || "Something went wrong.",
+        icon: "error",
+        timer: 3000,
+        showConfirmButton: false,
+      });
+    }
+  };
+
+  const handleSelectChange = (value: string) => {
+    setIdType(value); // Update the idType when a selection is made
+  };
+
   return (
-    <section className="">
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-2 max-w-2xl mx-auto"
-        >
-          <FormField
-            control={form.control}
-            name="firstname"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>First Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="lastname"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Last Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder="" readOnly {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                  <Input placeholder="" readOnly {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Phone</FormLabel>
-                <FormControl>
-                  <Input placeholder="" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="country"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Country</FormLabel>
-                <FormControl>
-                  <Input placeholder="" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="flex">
-            <Button
-              type="submit"
-              variant={"destructive"}
-              className="ml-auto mt-4 px-10"
-            >
-              save
-            </Button>
-          </div>
-        </form>
-      </Form>
-      <div className="max-w-2xl mx-auto flex items-center justify-center flex-col mt-5">
-        <h1 className="text-3xl font-bold">Account Verification</h1>
-        <Button variant={"destructive"} className="font-extrabold my-5">
-          Account not verified
-        </Button>
-      </div>
-      <div className="max-w-2xl mx-auto">
-        <p className="mb-2">
-          Account verification usually takes about 30 minutes
-        </p>
-        <div className="">
-          <p className="mb-2">Choose your ID type</p>
-          <Select>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Intl Passport" />
-            </SelectTrigger>
-            <SelectContent>
-              {Verification.map((item, index) => (
-                <SelectItem value={item} key={index}>
-                  {item}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <p className="my-5">
-            Copy of passport (Please upload a passport in a full layout, with
-            borders clearly visible)
-          </p>
-          <p className="mb-5">Upload file [ png, jpg, jpeg ] max 10Mb</p>
-          <Button variant={'destructive'} className="text-white font-extrabold text-lg">
-            <ImageIcon />
-            Browse file to upload
-          </Button>
-          <p className="text-red-500">* click to read and accept the terms of service *</p>
+    <section className="w-[500px] mx-auto">
+      <h2 className="text-lg font-bold mb-4">Account Information</h2>
+      <Form data={data} isError={isError} isLoading={isLoading} />
 
-          <div className="flex">
-            <Button
-              className="px-10 text-white ml-auto"
-              variant={"destructive"}
-            >
-              <Upload />
-              upload
-            </Button>
+      <div className="flex items-center justify-center flex-col mt-8">
+        <h1 className="text-xl font-bold mb-4">Account Verification</h1>
+        {data?.user.status !== "Active" ? (
+          <>
+            {data?.user.status === "Pending" && (
+              <>
+                <div className="bg-blue-600 text-white font-bold text-lg py-2 px-4 rounded-lg mb-4">
+                  Pending Approval
+                </div>
+                <p className="mb-2 text-gray-600">
+                  Verification is being processed. Please check back later
+                </p>
+              </>
+            )}
+            {data?.user.status === "Inactive" && (
+              <>
+                <div className="bg-red-600 text-white font-bold text-lg py-2 px-4 rounded-lg mb-4">
+                  Not Verified
+                </div>
+                <p className="mb-2 text-gray-600">
+                  Account verification usually takes about 30 minutes
+                </p>
+                <div className="w-full">
+                  <p className="mb-2">Choose your ID type</p>
+                  <Select value={idType} onValueChange={handleSelectChange}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Intl Passport" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Verification.map((item, index) => (
+                        <SelectItem value={item} key={index}>
+                          {item}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                {loading ? (
+                  <p className="my-5">File uploading wait...</p>
+                ) : (
+                  <p className="my-5">Upload file [png, jpg, jpeg] max 10MB</p>
+                )}
+
+                <label
+                  htmlFor="fileUpload"
+                  className="cursor-pointer inline-flex items-center bg-red-600 text-white font-bold text-lg py-2 px-4 rounded-lg hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                >
+                  <ImageIcon className="mr-2" />
+                  Browse file to upload
+                </label>
+                <input
+                  type="file"
+                  id="fileUpload"
+                  accept="image/png, image/jpeg, image/jpg"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      handleImageUpload(file);
+                    }
+                  }}
+                />
+              </>
+            )}
+          </>
+        ) : (
+          <div className="bg-green-600 text-white font-bold text-lg py-2 px-4 rounded-lg mb-4">
+            Verified
           </div>
-        </div>
+        )}
       </div>
     </section>
   );

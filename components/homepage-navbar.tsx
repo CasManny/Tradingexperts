@@ -24,6 +24,10 @@ export const navroutes = [
     label: "Dashboard",
     href: "/accounts/sign-in",
   },
+  {
+    label: "Get Started",
+    href: "/accounts/sign-up",
+  },
 ];
 const HomepageNavbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);

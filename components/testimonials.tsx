@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Card } from "./ui/card";
 import Marquee from "./ui/marquee";
 
@@ -50,7 +49,7 @@ const Testimonials = () => {
           {reviews.map((item, index) => (
             <Card className="w-full shadow-md max-w-sm p-5" key={index}>
               <div className="flex items-center justify-center flex-col my-5">
-                <Image
+                <img
                   src={item.image}
                   height={50}
                   width={50}

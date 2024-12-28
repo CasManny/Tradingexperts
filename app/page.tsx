@@ -4,7 +4,10 @@ import { Footer } from "@/components/footer";
 import Hero from "@/components/hero";
 import Services from "@/components/services";
 import Testimonials from "@/components/testimonials";
+import WhatsAppChat from "@/lib/WhatsAppChat";
 import WorkExperience from "@/components/work-experience";
+import BackToTop from "@/lib/back-to-top";
+import GTranslateWidget from "@/lib/translator";
 export default function Home() {
   return (
     <main className="">
@@ -16,6 +19,9 @@ export default function Home() {
       </div>
       <Testimonials />
       <ContactMe />
+      <WhatsAppChat />
+      <BackToTop />
+      <GTranslateWidget />
       <Footer />
     </main>
   );

@@ -6,11 +6,11 @@ import { FaLinkedinIn } from "react-icons/fa6";
 export const links = [
   {
     icon: CiMail,
-    href: "mailto:support@mariafranceshanlon.online",
+    href: "mailto:support@wesleyshirley.com",
   },
   {
     icon: FaWhatsapp,
-    href: "https://wa.me/+15416388952",
+    href: "https://wa.me/+14696965385",
   },
   {
     icon: FaXTwitter,
@@ -47,10 +47,8 @@ export const Footer = () => {
             </div>
           </div>
           <p className="text-xs sm:text-base text-center py-2">
-            © Copyright{" "}
-            <span className="capitalize font-bold sm:text-lg">
-              wesley shirley christian
-            </span>
+            © Copyright {new Date().getFullYear()}
+            <span className="capitalize font-bold sm:text-lg"> wesley shirley christian</span>
             . All Rights Reserved
           </p>
         </div>

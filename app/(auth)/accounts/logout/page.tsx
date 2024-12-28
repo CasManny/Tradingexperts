@@ -9,10 +9,10 @@ const Logout = () => {
 
   useEffect(() => {
     // Clear token from localStorage
-    localStorage.removeItem("token");
+    localStorage.removeItem("userToken");
 
     // Redirect to login page
-    router.push("/accounts/sign-in");
+    router.replace("/accounts/sign-in");
   }, [router]);
 
   return null; // No UI is displayed, as it's just a redirect action

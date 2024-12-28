@@ -11,12 +11,12 @@ const info = [
   },
   {
     title: "Phone",
-    desc: " +1 (512) 842-9936",
+    desc: "+1 (469) 696-5385",
     icon: Phone,
   },
   {
     title: "Email",
-    desc: " support@tradingexperts.com",
+    desc: "support@wesleyshirley.com",
     icon: CiMail,
   },
 ];

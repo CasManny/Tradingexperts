@@ -1,13 +1,19 @@
 import React, { PropsWithChildren } from "react";
-import AdminNavbar from "./_components/admin-navbar";
-import { Footer } from "@/components/footer";
+import { Metadata } from 'next';
+import { Content } from "./content";
+
+export const metadata: Metadata = {
+  title: "Admin Dashboard | Wesley Shirley Christian",
+  description: "Manage All trading data",
+};
+
 
 const AdminLayout = ({ children }: PropsWithChildren) => {
   return (
     <section>
-      <AdminNavbar />
-      <main className="">{children}</main>
-      <Footer />
+      <Content>
+        {children}
+      </Content>
     </section>
   );
 };

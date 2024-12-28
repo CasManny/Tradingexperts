@@ -3,30 +3,40 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 
-const PrivateRoute = (WrappedComponent: React.FC) => {
+interface DecodedToken {
+  exp: number;
+  role?: string;
+}
+
+const PrivateRoute = (WrappedComponent: React.FC, tokenKey: string) => {
   const HOC = (props: any) => {
     const router = useRouter();
 
     useEffect(() => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem(tokenKey);
 
       if (!token) {
-        router.replace("/accounts/sign-in");
+        if (tokenKey === "adminToken") {
+          router.replace("/admin/sign-in");
+        } else {
+          router.replace("/accounts/sign-in");
+        }
         return;
       }
 
       try {
-        const decoded: { exp: number } = jwtDecode(token);
-        const currentTime = Date.now() / 1000; // Current time in seconds
+        const decoded: DecodedToken = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
 
         if (decoded.exp < currentTime) {
-          localStorage.removeItem("token"); // Remove expired token
-          router.replace("/accounts/sign-in");
+          localStorage.removeItem(tokenKey);
+          router.replace("../");
         }
+
       } catch (error) {
         console.log("Invalid token:", error);
-        localStorage.removeItem("token"); // Cleanup if the token is corrupt
-        router.replace("/accounts/sign-in");
+        localStorage.removeItem(tokenKey);
+        router.replace("../");
       }
     }, [router]);
 

@@ -1,5 +1,8 @@
 "use client";
 
+import { useState } from "react";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -18,9 +21,11 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import api from "@/lib/api.js"; // Import the Axios instance
+import CountrySelect from "@/lib/country-select";
 
 export const SignUpCard = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   // Initialize form with validation
   const form = useForm<z.infer<typeof signupSchema>>({
@@ -35,131 +40,159 @@ export const SignUpCard = () => {
     },
   });
 
+  const SwalWithReact = withReactContent(Swal);
+
   // Handle form submission
   async function onSubmit(values: z.infer<typeof signupSchema>) {
     try {
+      setLoading(true);
       const response = await api.post("/auth/signup", values);
-      if (response.status === 200) {
-        alert("Account created successfully!");
-        router.push(`/dashboard?${response.data.email}`);
-      }
+      SwalWithReact.fire({
+        title: "Signup complete.",
+        text: response.data.message,
+        icon: "success",
+        showConfirmButton: true,
+      }).then(() => {
+        setLoading(false);
+        router.push("/accounts/sign-in");
+      });
     } catch (error: any) {
       const errorMessage =
-        error.response?.data?.message || "Something went wrong!";
-      alert(errorMessage);
+        error.response?.data?.error || "Something went wrong!";
+      SwalWithReact.fire({
+        title: "Signup Failed",
+        text: errorMessage,
+        icon: "error",
+        showConfirmButton: true,
+      });
+    } finally {
+      setLoading(false);
     }
   }
 
-  return (
-    <Card className="w-[600px]">
-      <CardHeader>
-        <CardTitle>Create Your Account</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm">Username</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter a unique username" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="fullName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm">Full Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter your full name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="country"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm">Country</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Country of residence" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm">Email Address</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter your email address" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm">Phone Number</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter your phone number" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm">Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="Enter a strong password"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button
-              type="submit"
-              className="w-full bg-brand-2 hover:bg-brand-1 text-neutral-900 font-bold"
-            >
-              Register
-            </Button>
-            <div className="mt-2">
-              <p className="text-center">
-                Already have an account?{" "}
-                <Link
-                  href={"/accounts/sign-in"}
-                  className="underline text-blue-700 tracking-wide"
+
+    return (
+      <Card className="w-[600px]">
+        <CardHeader>
+          <CardTitle>Create Your Account</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="fullName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm">Full Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter your full name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm">Email Address</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter your email address"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm">Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="Enter a strong password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm">Username</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter a unique username" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="country"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm">Country</FormLabel>
+                    <CountrySelect field={field} />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm">Phone Number</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter your phone number" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {loading ? (
+                <Button
+                  type="button"
+                  disabled
+                  className="w-full bg-brand-2 text-neutral-900 font-bold"
                 >
-                  Login!
-                </Link>
-              </p>
-            </div>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
-  );
+                  Please wait...
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  className="w-full bg-brand-2 hover:bg-brand-1 text-neutral-900 font-bold"
+                >
+                  Register
+                </Button>
+              )}
+              <div className="mt-2">
+                <p className="text-center">
+                  Already have an account?{" "}
+                  <Link
+                    href={"/accounts/sign-in"}
+                    className="underline text-blue-700 tracking-wide"
+                  >
+                    Login!
+                  </Link>
+                </p>
+              </div>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+    );
+
 };

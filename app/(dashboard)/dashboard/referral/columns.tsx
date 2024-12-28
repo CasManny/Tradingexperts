@@ -5,22 +5,29 @@ import { ColumnDef } from "@tanstack/react-table"
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type Referral = {
-  id: number
-  name: string
-  dateRegistered: string
+  fullName: string
+  regDate: string
 }
 
 export const columns: ColumnDef<Referral>[] = [
   {
-    accessorKey: "id",
-    header: "S/N",
-  },
-  {
-    accessorKey: "name",
+    accessorKey: "fullName",
     header: "Name",
   },
   {
-    accessorKey: "dateRegistered",
+    accessorKey: "regDate",
     header: "Date Registered",
+    cell: ({ row }) => {
+      const date = new Date(row.original.regDate);
+      return new Intl.DateTimeFormat("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      }).format(date);
+    },
   },
 ]

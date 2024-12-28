@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -15,53 +16,59 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
+import api from "@/lib/api.js";
 
 const adminSignInSchema = z.object({
-  secretCode: z.string(),
-    email: z.string().email(),
-  password: z.string()
+  username: z.string(),
+  password: z.string(),
 });
 
 const AdminSignIn = () => {
+  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  
   const form = useForm<z.infer<typeof adminSignInSchema>>({
     resolver: zodResolver(adminSignInSchema),
     defaultValues: {
-        secretCode: "",
-        email: "",
-        password: ""
+      username: "",
+      password: "",
     },
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof adminSignInSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  
+  async function onSubmit(values: z.infer<typeof adminSignInSchema>) {
+    setError(null); // Clear any previous errors
+    try {
+      setLoading(true);
+      const { data } = await api.post("/admin/login", {
+        username: values.username,
+        password: values.password,
+      });
+
+      localStorage.setItem("adminToken", data.token);
+      router.push("../admin");
+    } catch (err: any) {
+      setLoading(false);
+      setError(err.response?.data?.error || "Something went wrong. Please try again.");
+    }
   }
   return (
     <div className="max-w-5xl mx-auto py-12 sm:py-24">
-      <h1 className="text-center text-5xl">Welcom Admin [TradingExpert]</h1>
+      <h1 className="text-center text-white text-5xl">Welcom Admin WSC</h1>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 my-10">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-4 my-10"
+        >
           <FormField
             control={form.control}
-            name="secretCode"
+            name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Enter Admin Trading Expert Secret code</FormLabel>
-                <FormControl>
-                  <Input placeholder="" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Enter Your admin Email address</FormLabel>
+                <FormLabel>Admin Username</FormLabel>
                 <FormControl>
                   <Input placeholder="" {...field} />
                 </FormControl>
@@ -74,15 +81,21 @@ const AdminSignIn = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Enter your password</FormLabel>
+                <FormLabel>Admin Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="" {...field} />
+                  <Input placeholder="" type="password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full p-5 bg-brand-4 hover:bg-brand-4 text-black font-bold">Submit</Button>
+            {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+          <Button
+            type="submit"
+            className="w-full p-5 bg-brand-4 hover:bg-brand-1 text-black font-bold"
+          >
+            {loading ? "Processing..." : "Sign In"}
+          </Button>
         </form>
       </Form>
     </div>

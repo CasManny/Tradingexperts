@@ -1,0 +1,8 @@
+.colored {
+  background-color: rgba(255, 255, 255, 0);
+  background-image: url(../public/bags-wen.jpeg);
+  background-size: cover; /* Ensures the image covers the entire element */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  background-position: center; /* Centers the image */
+  top: 0px;
+}

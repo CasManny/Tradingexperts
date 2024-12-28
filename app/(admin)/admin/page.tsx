@@ -1,70 +1,38 @@
 "use client";
 import React, { useState } from "react";
-import { UserDataTable } from "./_components/tables/users/users-data-table";
-import { Usercolumns } from "./_components/tables/users/users-columns";
+import { TradingHistoryDataTable } from "../../(dashboard)/dashboard/_components/trading-history/trading-data-table";
+import { User, Usercolumns } from "./_components/tables/users/users-columns";
 import { Button } from "@/components/ui/button";
 import AddNewUserModal from "./_components/modals/add-new-user-modal";
+import PrivateRoute from "@/lib/private";
+import { useQuery } from "@tanstack/react-query";
+import api from "@/lib/api";
+import { Pagination } from "@/lib/more";
 
-const dummyData = [
-  {
-    id: "1",
-    amount: 1200.5,
-    username: "john_doe",
-    accountNumber: "123456789",
-    password: "password123",
-    transactionsMade: 15,
-    balance: 500.0,
-    status: "active",
-    email: "john.doe@example.com",
-  },
-  {
-    id: "2",
-    amount: 2500.75,
-    username: "jane_smith",
-    accountNumber: "987654321",
-    password: "securePass456",
-    transactionsMade: 8,
-    balance: 1200.0,
-    status: "inactive",
-    email: "jane.smith@example.com",
-  },
-  {
-    id: "3",
-    amount: 800.0,
-    username: "alice_wonder",
-    accountNumber: "112233445",
-    password: "wonderAlice789",
-    transactionsMade: 20,
-    balance: 300.0,
-    status: "active",
-    email: "alice.wonder@example.com",
-  },
-  {
-    id: "4",
-    amount: 4000.0,
-    username: "bob_builder",
-    accountNumber: "556677889",
-    password: "buildIt456",
-    transactionsMade: 50,
-    balance: 1000.0,
-    status: "suspended",
-    email: "bob.builder@example.com",
-  },
-  {
-    id: "5",
-    amount: 1500.25,
-    username: "charlie_brown",
-    accountNumber: "998877665",
-    password: "brownCharlie123",
-    transactionsMade: 5,
-    balance: 250.75,
-    status: "active",
-    email: "charlie.brown@example.com",
-  },
-];
+type UsersResponse = {
+  users: User[];
+  totalUsers: number;
+  currentPage: number;
+  totalPages: number;
+};
 
 const AdminHomepage = () => {
+  const [usersPage, setUsersPage] = useState(1);
+
   const [openModal, setOpenModal] = useState(false);
+
+  // Fetch trades using react-query
+  const { data, isLoading, refetch } = useQuery<UsersResponse>({
+    queryKey: ["user-list", usersPage],
+    queryFn: async () => {
+      const response = await api.get(`/admin/users?page=${usersPage}`);
+      return response.data;
+    },
+  });
+
+  const users = data?.users || [];
+  const userMeta = data || { totalUsers: 0, currentPage: 1, totalPages: 1 };
+
   return (
     <div className="py-10 sm:py-12">
       <div className="max-w-7xl mx-auto relative">
@@ -80,11 +48,20 @@ const AdminHomepage = () => {
             Add new User
           </Button>
         </div>
-        <UserDataTable data={dummyData} columns={Usercolumns} />
+        <TradingHistoryDataTable
+          data={users}
+          columns={Usercolumns}
+          refetch={refetch}
+        />
+        <Pagination
+          currentPage={userMeta.currentPage}
+          totalPages={userMeta.totalPages}
+          onPageChange={setUsersPage}
+        />
       </div>
-      <AddNewUserModal open={openModal} close={setOpenModal} />
+      <AddNewUserModal open={openModal} close={setOpenModal} userId="" />
     </div>
   );
 };
 
-export default AdminHomepage;
+export default PrivateRoute(AdminHomepage, "adminToken");
