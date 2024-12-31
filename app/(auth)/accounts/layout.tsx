@@ -5,6 +5,7 @@ import WinningsReports from "@/lib/win-report";
 import WhatsAppChat from "@/lib/WhatsAppChat";
 import classes from "./styles.module.css";
 import { Metadata } from 'next';
+import LiveChat from "@/lib/live-chat";
 
 export const metadata: Metadata = {
   title: "Client | Wesley Shirley Christian",
@@ -18,6 +19,7 @@ const AuthLayout = ({ children }: PropsWithChildren) => {
       <main className="">{children}</main>
       <GTranslateWidget />
       <WinningsReports />
+      <LiveChat />
       <WhatsAppChat />
     </section>
   );

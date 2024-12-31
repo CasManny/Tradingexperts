@@ -17,16 +17,27 @@ import {
 import api from "@/lib/api";
 import { formatBalance } from "@/lib/more";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 
 const DepositFunds = () => {
   const { data, isLoading, isError } = useStore();
   const [paymentMethod, setPaymentMethod] = useState<PaymentType>("Bitcoin");
   const [amount, setAmount] = useState<number | undefined>(undefined);
   const [isDepositing, setIsDepositing] = useState(false);
-
-  
   const router = useRouter();
   const SwalWithReact = withReactContent(Swal);
+
+  const {
+    data: walletData,
+    isLoading: isWalletLoading,
+    isError: isWalletError,
+  } = useQuery({
+    queryKey: ["wallets"],
+    queryFn: async () => {
+      const response = await api.get("/wallets/get-all");
+      return response.data.wallets;
+    },
+  });
 
   const handlePaymentMethod = (value: string) => {
     setPaymentMethod(value);
@@ -41,16 +52,18 @@ const DepositFunds = () => {
   };
 
   const handlePaymentConfirmation = async () => {
+    const selectedWallet = walletData?.[0]; // As there's only one wallet, directly access it
+
     const payload = {
       amount,
       method: paymentMethod,
-      walletAddress: selectedPaymentMethod?.wallet || "",
+      walletAddress: selectedWallet?.[paymentMethod] || "",
     };
 
     try {
-      await api.post('/client/deposit', payload);
+      await api.post("/client/deposit", payload);
       SwalWithReact.fire({
-        title: "Trade Successful",
+        title: "Transaction Successful",
         text: `Deposit request sent successfully!`,
         icon: "success",
         timer: 3000,
@@ -59,9 +72,9 @@ const DepositFunds = () => {
         router.push("./history?transactions=true");
       });
     } catch (error) {
-      console.error('Error sending deposit request:', error);
+      console.error("Error sending deposit request:", error);
       SwalWithReact.fire({
-        title: "Trade Failed",
+        title: "Transaction Failed",
         text: "Failed to send deposit. Please try again.",
         icon: "error",
         timer: 3000,
@@ -70,17 +83,26 @@ const DepositFunds = () => {
     }
   };
 
+  const selectedWallet = walletData?.[0]; // Access the first wallet since there's only one
+  const walletAddress = selectedWallet
+    ? selectedWallet[paymentMethod]
+    : "No wallet address available";
 
-  // Find the wallet address associated with the selected payment method
-  const selectedPaymentMethod = fundingMethods.find(
-    (method) => method.name === paymentMethod
-  );
+  const copyToClipboard = (e: React.MouseEvent) => {
+    const inputElement = e.target as HTMLInputElement;
+    inputElement.select();
+    document.execCommand("copy");
+    SwalWithReact.fire({
+      title: "Copied to Clipboard",
+      text: "Wallet address has been copied!",
+      icon: "success",
+      timer: 4000,
+      showConfirmButton: false,
+    });
+  };
 
-  const walletAddress = selectedPaymentMethod?.wallet || "No wallet address available"; // Default value if not found
-
-
-  if (isLoading) return <div>Loading user data...</div>;
-  if (isError) return <div>Error fetching user data.</div>;
+  if (isLoading || isWalletLoading) return <div>Loading data...</div>;
+  if (isError || isWalletError) return <div>Error fetching data.</div>;
 
   return (
     <div className="p-0 sm:py-0 px-5">
@@ -105,12 +127,7 @@ const DepositFunds = () => {
             className="flex items-center flex-col gap-2 cursor-pointer"
             onClick={() => handlePaymentMethod(method.name)}
           >
-            <img
-              src={method.image}
-              alt={method.name}
-              width={70}
-              height={70}
-            />
+            <img src={method.image} alt={method.name} width={70} height={70} />
             <p
               className={cn(
                 paymentMethod === method.name &&
@@ -123,9 +140,7 @@ const DepositFunds = () => {
         ))}
       </div>
       <div className="lg:hidden">
-        <Select
-          onValueChange={(value) => handlePaymentMethod(value)}
-          >
+        <Select onValueChange={(value) => handlePaymentMethod(value)}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder="select funding method" />
           </SelectTrigger>
@@ -170,14 +185,23 @@ const DepositFunds = () => {
                 <Input
                   className="w-full"
                   type="text"
-                  value={walletAddress} // Display the correct wallet address
+                  value={walletAddress}
                   readOnly
+                  onClick={copyToClipboard} // Trigger the copy on click
                 />
                 <div className="flex justify-evenly">
-                  <Button variant="destructive" className="px-5" onClick={handleCancel}>
+                  <Button
+                    variant="destructive"
+                    className="px-5"
+                    onClick={handleCancel}
+                  >
                     Cancel
                   </Button>
-                  <Button variant="success" className="px-5" onClick={handlePaymentConfirmation}>
+                  <Button
+                    variant="success"
+                    className="px-5"
+                    onClick={handlePaymentConfirmation}
+                  >
                     I Have Paid
                   </Button>
                 </div>

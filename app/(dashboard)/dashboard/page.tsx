@@ -23,9 +23,8 @@ type PaginatedResponse = {
   totalPages: number;
 };
 
-export type TradesResponse = {
+type TradesResponse = {
   message: string;
-  practiceTrades: PaginatedResponse;
   realTrades: PaginatedResponse;
 };
 
@@ -154,9 +153,7 @@ const DashboardHome = () => {
   const [selectedAsset, setSelectedAsset] = useState<string>(
     options[0].assets[0]
   );
-  const [practicePage, setPracticePage] = useState(1);
   const [realPage, setRealPage] = useState(1);
-  const [activeTab, setActiveTab] = useState("practice"); // Track active tab
 
   const handleOptionChange = (name: string) => {
     const option = options.find((opt) => opt.name === name) || options[0];
@@ -175,21 +172,14 @@ const DashboardHome = () => {
 
   // Fetch trades using react-query
   const { data, isLoading, refetch } = useQuery<TradesResponse>({
-    queryKey: ["client-trades", activeTab, practicePage, realPage],
+    queryKey: ["client-trades", realPage],
     queryFn: async () => {
-      const page = activeTab === "practice" ? practicePage : realPage;
-      const response = await api.get(`/client/trades?page=${page}`);
+      const response = await api.get(`/client/trades?page=${realPage}`);
       return response.data;
     },
   });
 
-  const practiceTrades = data?.practiceTrades?.data || [];
   const realTrades = data?.realTrades?.data || [];
-  const practiceMeta = data?.practiceTrades || {
-    total: 0,
-    page: 1,
-    totalPages: 1,
-  };
   const realMeta = data?.realTrades || { total: 0, page: 1, totalPages: 1 };
 
   return (
@@ -254,36 +244,14 @@ const DashboardHome = () => {
           </h1>
           <div className="max-w-6xl mx-auto w-full mt-5">
             <Tabs
-              defaultValue="practice"
+              defaultValue="real"
               className="w-full mx-auto my-20"
-              onValueChange={(value) => setActiveTab(value)} // Track active tab
             >
               <TabsList className="font-bold">
-                <TabsTrigger value="practice" className="">
-                  Practice Trades
-                </TabsTrigger>
                 <TabsTrigger value="real" className="">
-                  Real Trades
+                  Trades
                 </TabsTrigger>
               </TabsList>
-              <TabsContent value="practice">
-                {isLoading ? (
-                  <div>Loading...</div>
-                ) : (
-                  <>
-                    <TradingHistoryDataTable
-                      columns={TradingHistorycolumns(refetch)}
-                      data={practiceTrades}
-                      refetch={refetch} // Pass refetch here
-                    />
-                    <Pagination
-                      currentPage={practiceMeta.page}
-                      totalPages={practiceMeta.totalPages}
-                      onPageChange={setPracticePage}
-                    />
-                  </>
-                )}
-              </TabsContent>
               <TabsContent value="real">
                 {isLoading ? (
                   <div>Loading...</div>

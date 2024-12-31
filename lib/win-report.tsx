@@ -1079,7 +1079,7 @@ const WinningsReports = () => {
   style="
     position: fixed;
     left: 1.5rem;
-    bottom: 0.5rem;
+    bottom: 4.5rem;
     z-index: 400;
     margin-top: -5px;
     padding: 10px;

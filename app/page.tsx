@@ -8,6 +8,8 @@ import WhatsAppChat from "@/lib/WhatsAppChat";
 import WorkExperience from "@/components/work-experience";
 import BackToTop from "@/lib/back-to-top";
 import GTranslateWidget from "@/lib/translator";
+import LiveChat from "@/lib/live-chat";
+
 export default function Home() {
   return (
     <main className="">
@@ -19,6 +21,7 @@ export default function Home() {
       </div>
       <Testimonials />
       <ContactMe />
+      <LiveChat />
       <WhatsAppChat />
       <BackToTop />
       <GTranslateWidget />

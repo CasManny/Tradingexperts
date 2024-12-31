@@ -5,7 +5,7 @@ const WhatsAppChat = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState("");
 
-  const sendTo = "+234701165";
+  const sendTo = "+14696965385";
   const initText = "Hello, I would like to employ your service";
   const chatUrl = `https://api.whatsapp.com/send?phone=${sendTo}&text=${initText}`;
 

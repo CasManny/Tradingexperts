@@ -20,7 +20,6 @@ type UserInfo = {
   country: string;
   cur: string;
   realBal: number;
-  practiceBal: number;
   status: string;
 };
 export type User = {

@@ -48,7 +48,6 @@ const GTranslateWidget = () => {
         "vi",
       ],
       wrapper_selector: ".gtranslate_wrapper",
-      switcher_horizontal_position: "right",
     };
 
     return () => {

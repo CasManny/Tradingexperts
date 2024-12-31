@@ -21,7 +21,6 @@ const Form = ({ closeModal, userId }: FormProps) => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     realBal: 0,
-    practiceBal: 0,
   });
 
   const queryClient = useQueryClient();
@@ -58,7 +57,7 @@ const Form = ({ closeModal, userId }: FormProps) => {
           htmlFor="realBal"
           className="block text-sm font-medium text-gray-700"
         >
-          Fund Real Account
+          Fund Account
         </label>
         <input
           type="text"
@@ -71,20 +70,6 @@ const Form = ({ closeModal, userId }: FormProps) => {
       </div>
 
       <div>
-        <label
-          htmlFor="practiceBal"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Practice Account
-        </label>
-        <input
-          type="text"
-          id="practiceBal"
-          name="practiceBal"
-          value={formData.practiceBal}
-          onChange={handleInputChange}
-          className="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 sm:text-sm"
-        />
       </div>
 
       {/* Submit Button */}

@@ -49,8 +49,6 @@ const ChartSettings = ({
   onTradeMade,
 }: ChartSettingsProps) => {
   const { data, isLoading, isError } = useStore();
-  const [acctype, setAcctype] = useState<string>("practice"); // Default to "practice"
-
   const [amount, setAmount] = useState<number>(0);
   const [selectedExpiration, setSelectedExpiration] = useState<number>(
     expirationTimeOptions[0].value
@@ -80,7 +78,7 @@ const ChartSettings = ({
   const handleTrade = async (type: "call" | "put") => {
     try {
       const payload = {
-        acctype,
+        acctype: "real", // Real account hardcoded
         asset: selectedAsset,
         type,
         amount,
@@ -112,7 +110,7 @@ const ChartSettings = ({
 
   return (
     <div className="px-5 w-full">
-      <UserAccountBalance onAccountChange={setAcctype} />
+      <UserAccountBalance /> {/* Removed account type selection */}
       <div className="my-5 flex flex-col gap-5">
         <div>
           <div className="flex items-center gap-2">

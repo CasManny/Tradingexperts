@@ -8,6 +8,7 @@ import PrivateRoute from "@/lib/private";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/api";
 import { Pagination } from "@/lib/more";
+import FundModal from "./_components/modals/wallet-modal"; // Assuming this is the path to your WalletModal
 
 type UsersResponse = {
   users: User[];
@@ -18,8 +19,8 @@ type UsersResponse = {
 
 const AdminHomepage = () => {
   const [usersPage, setUsersPage] = useState(1);
-
   const [openModal, setOpenModal] = useState(false);
+  const [openWalletModal, setOpenWalletModal] = useState(false); // Added state for WalletModal
 
   // Fetch trades using react-query
   const { data, isLoading, refetch } = useQuery<UsersResponse>({
@@ -41,12 +42,20 @@ const AdminHomepage = () => {
         </h1>
         <div className="flex items-center justify-between my-5">
           <p className="text-lg">Manage All Users</p>
-          <Button
-            className="bg-green-500 text-white font-bold text-xl"
-            onClick={() => setOpenModal(true)}
-          >
-            Add new User
-          </Button>
+          <div className="flex space-x-3">
+            <Button
+              className="bg-green-500 text-white font-bold text-xl"
+              onClick={() => setOpenModal(true)}
+            >
+              Add new User
+            </Button>
+            <Button
+              className="bg-blue-500 text-white font-bold text-xl"
+              onClick={() => setOpenWalletModal(true)} // Open WalletModal on click
+            >
+              Manage Wallets
+            </Button>
+          </div>
         </div>
         <TradingHistoryDataTable
           data={users}
@@ -59,7 +68,9 @@ const AdminHomepage = () => {
           onPageChange={setUsersPage}
         />
       </div>
+      {/* Modals */}
       <AddNewUserModal open={openModal} close={setOpenModal} userId="" />
+      <FundModal open={openWalletModal} close={setOpenWalletModal} /> {/* Added WalletModal */}
     </div>
   );
 };

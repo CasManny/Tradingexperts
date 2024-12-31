@@ -7,6 +7,7 @@ import WhatsAppChat from "@/lib/WhatsAppChat";
 import GTranslateWidget from "@/lib/translator";
 import WinningsReports from "@/lib/win-report";
 import { PropsWithChildren } from "react";
+import LiveChat from "@/lib/live-chat";
 
 const queryClient = new QueryClient(); // Create the QueryClient instance
 
@@ -17,6 +18,7 @@ export const Content = ({ children }: PropsWithChildren) => {
         <DashboardNavbar />
         {children}
         <WinningsReports />
+        <LiveChat />
         <WhatsAppChat />
         <GTranslateWidget />
         <DashboardFooter />
